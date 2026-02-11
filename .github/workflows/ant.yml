@@ -1,38 +1,40 @@
-name: Task 1 Dependent Jobs
+## YAML Template.
+name: Task 2 Multi-Platform-Jobs
 
 on:
-  push:
+  pull_request:
     branches: [ "main" ]
 
 jobs:
-  build:
+  ubuntu-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Initialize Build
-        run: echo "Initializing environment..."
-      - name: Build Application
+      - uses: actions/checkout@v4
+      - name: Print OS Info
+        run: uname -a
+      - name: Create and Display File
         run: |
-          echo "Building application..."
-          sleep 5
+          echo "This is Linux" > linux.txt
+          cat linux.txt
 
-  test:
-    needs: build
-    runs-on: ubuntu-latest
+  windows-job:
+    runs-on: windows-latest
     steps:
-      - name: Prepare Test Suite
-        run: echo "Loading test libraries..."
-      - name: Run Tests
+      - uses: actions/checkout@v4
+      - name: Print OS Info
+        run: systeminfo | findstr /B /C:"OS Name"
+      - name: Create and Display File
         run: |
-          echo "Running tests..."
-          sleep 5
+          echo "This is Windows" > windows.txt
+          type windows.txt
 
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
+  macos-job:
+    runs-on: macos-latest
     steps:
-      - name: Check Deploy Target
-        run: echo "Verifying server connection..."
-      - name: Deploy Application
+      - uses: actions/checkout@v4
+      - name: Print OS Info
+        run: uname -a
+      - name: Create and Display File
         run: |
-          echo "Deploying application..."
-          sleep 5
+          echo "This is MacOS" > macos.txt
+          cat macos.txt
