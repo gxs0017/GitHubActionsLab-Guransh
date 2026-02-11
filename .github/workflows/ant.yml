@@ -1,0 +1,38 @@
+name: Task 1 Dependent Jobs
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Initialize Build
+        run: echo "Initializing environment..."
+      - name: Build Application
+        run: |
+          echo "Building application..."
+          sleep 5
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare Test Suite
+        run: echo "Loading test libraries..."
+      - name: Run Tests
+        run: |
+          echo "Running tests..."
+          sleep 5
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Deploy Target
+        run: echo "Verifying server connection..."
+      - name: Deploy Application
+        run: |
+          echo "Deploying application..."
+          sleep 5
